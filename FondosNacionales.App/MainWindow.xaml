@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FondosNacionales.App"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        ResizeMode="NoResize"
+        Title="Fondos Nacionales de Marcos" Height="288.235" Width="535" >
+    <Grid Margin="0,0,0,0">
+        <Button x:Name="btn_Historicos" Content="Ejecutar Historicos" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_Historicos_Click" />
+        <Button x:Name="btn_Cesantia" Content="Cesantia" HorizontalAlignment="Left" Margin="197,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_Cesantia_Click"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="10,217,0,0" VerticalAlignment="Top" Width="497" x:Name="pg_avance"/>
+        <Button x:Name="btn_SIL" HorizontalAlignment="Left" Margin="340,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Content="SIL" Click="btn_SIL_Click"/>
+        <Button x:Name="btn_ASFAM" Content="Asfam" HorizontalAlignment="Left" Margin="197,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_ASFAM_Click"/>
+        <Button x:Name="btm_Maternal" HorizontalAlignment="Left" Margin="340,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Content="Maternal" Click="btm_Maternal_Click"/>
+        <Label x:Name="label" Content="Marco's Excel Processor" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Height="31" Width="206"/>
+        <Label x:Name="lb_status" Content="-" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn_anexos" Content="Generar Anexos" HorizontalAlignment="Left" Margin="10,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_anexos_Click" />
+
     </Grid>
 </Window>

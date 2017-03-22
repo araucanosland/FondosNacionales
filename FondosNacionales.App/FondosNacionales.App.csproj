@@ -94,6 +94,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IA.FondosNacionales.Excel\IA.FondosNacionales.Excel.csproj">
+      <Project>{6d3695c9-74b0-4329-9607-999956d5aa3f}</Project>
+      <Name>IA.FondosNacionales.Excel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
