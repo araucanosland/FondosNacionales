@@ -32,5 +32,14 @@ namespace IA.FondosNacionales.Entity
         public string DevolucionDocumentosSAFEMCaducados { get; set; }
         public string DevolucionDocumentosSAFEMAnulados { get; set; }
         public string DocumentosSAFEMRevalidados { get; set; }
+
+
+        public string NI_Tramo0 { get; set; }
+        public string NI_Tramo1 { get; set; }
+        public string NI_Tramo2 { get; set; }
+        public string NI_Tramo3 { get; set; }
+        public string NI_Tramo4 { get; set; }
+
+
     }
 }

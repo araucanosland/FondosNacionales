@@ -10,15 +10,17 @@ namespace IA.FondosNacionales.Excel
 {
     public class MaternalController
     {
-        public void ProcesarFondo(Maternal m)
+        public void ProcesarFondo(Maternal m, string periodo)
         {
             var excelAppOut = new ExcelX.Application();
             var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-            var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
-            var rutaEntrada = @"C:\Fondos Nacionales\Templates\IF_MATERNAL.xlsx";
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            var rutaEntrada = @"C:\Fondos Nacionales\Templates\IF_MATERNAL";
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Maternal\";
 
-            excelAppOut.Workbooks.Open(rutaEntrada);
+
+            Utilidades.AbrirLibro(excelAppOut, rutaEntrada);
+            
             //"Feb-17"
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
 
@@ -90,12 +92,226 @@ namespace IA.FondosNacionales.Excel
             }
 
             Salida.Name = periodo;
-            Salida.SaveAs(rutaSalida + "IFMaternal_" + fecha + ".xlsx");
+            Salida.SaveAs(rutaSalida + "IFMaternal_" + fecha + Utilidades.ExtensionLibro(Salida.Application.ActiveWorkbook));
 
             excelAppOut.Quit();
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelAppOut);
 
 
         }
+
+
+        public void GenerarAnexo(string periodo)
+        {
+            var excelApp = new ExcelX.Application();
+            var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            var rutaEntrada = @"C:\Fondos Nacionales\in\" + periodo + @"\ANEXO4";
+            var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Maternal\Anexo\";
+            var rutaTemplate = @"C:\Fondos Nacionales\Templates\ANEXO_MATERNAL";
+
+
+
+            ExcelX.Workbook libroEntrada = Utilidades.AbrirLibro(excelApp, rutaEntrada);
+            ExcelX.Workbook libroDestino = Utilidades.AbrirLibro(excelApp, rutaTemplate);
+            
+            //Primero
+            ExcelX._Worksheet Cuadro1 = libroEntrada.Sheets["ResCotizPrevi"];
+            ExcelX._Worksheet Cuadro1_a6 = libroDestino.Sheets["Anexo 4-Res"];
+
+            var from = Cuadro1.Range["D11:D20"];
+            var to = Cuadro1_a6.Range["D13:D22"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["F11:F20"];
+            to = Cuadro1_a6.Range["E13:E22"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["H11:H20"];
+            to = Cuadro1_a6.Range["F13:F22"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["I11:I20"];
+            to = Cuadro1_a6.Range["G13:G22"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["K11:K20"];
+            to = Cuadro1_a6.Range["H13:H22"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            //SPRT
+            from = Cuadro1.Range["D24:D29"];
+            to = Cuadro1_a6.Range["D26:D31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["F24:F29"];
+            to = Cuadro1_a6.Range["E26:E31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["H24:H29"];
+            to = Cuadro1_a6.Range["F26:F31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["I24:I29"];
+            to = Cuadro1_a6.Range["G26:G31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["K24:K29"];
+            to = Cuadro1_a6.Range["H26:H31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //SPRT
+            from = Cuadro1.Range["D33:D34"];
+            to = Cuadro1_a6.Range["D35:D36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["F33:F34"];
+            to = Cuadro1_a6.Range["E35:E36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["H33:H34"];
+            to = Cuadro1_a6.Range["F36:F36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["I33:I34"];
+            to = Cuadro1_a6.Range["G35:G36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["K33:K34"];
+            to = Cuadro1_a6.Range["H35:H36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //SPRT
+            from = Cuadro1.Range["D41:D46"];
+            to = Cuadro1_a6.Range["D35:D36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["F41:F46"];
+            to = Cuadro1_a6.Range["E42:E27"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["H41:H46"];
+            to = Cuadro1_a6.Range["F42:F47"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            //from = Cuadro1.Range["I41:I46"];
+            //to = Cuadro1_a6.Range["G42:G37"];
+            //from.Copy();
+            //to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //from = Cuadro1.Range["K41:K46"];
+            //to = Cuadro1_a6.Range["H42:H27"];
+            //from.Copy();
+            //to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //SPRT
+            from = Cuadro1.Range["D50"];
+            to = Cuadro1_a6.Range["D51"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["F50"];
+            to = Cuadro1_a6.Range["E51"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["H50"];
+            to = Cuadro1_a6.Range["F51"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            //from = Cuadro1.Range["I41:I46"];
+            //to = Cuadro1_a6.Range["G42:G37"];
+            //from.Copy();
+            //to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //from = Cuadro1.Range["K41:K46"];
+            //to = Cuadro1_a6.Range["H42:H27"];
+            //from.Copy();
+            //to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //SPRT
+            from = Cuadro1.Range["D54:D60"];
+            to = Cuadro1_a6.Range["D55:D61"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["F54:F60"];
+            to = Cuadro1_a6.Range["E55:E61"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["H54:H60"];
+            to = Cuadro1_a6.Range["F55:F61"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Cuadro1.Range["I54:I60"];
+            to = Cuadro1_a6.Range["G55:G61"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["K54:K60"];
+            to = Cuadro1_a6.Range["H55:H61"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+
+
+            //cerrando
+            System.IO.FileAttributes attr;
+            try
+            {
+                attr = System.IO.File.GetAttributes(rutaSalida);
+            }
+            catch (Exception ex)
+            {
+                System.IO.Directory.CreateDirectory(rutaSalida);
+            }
+
+
+            libroDestino.SaveAs(rutaSalida + "Anexo_Maternal_" + fecha + Utilidades.ExtensionLibro(libroDestino));
+
+            libroDestino.Close(false);
+            libroEntrada.Close(false);
+            excelApp.Quit();
+            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelApp);
+        }
+
     }
 }

@@ -24,31 +24,31 @@ namespace IA.FondosNacionales.Excel
             mc = new MaternalController();
         }
 
-        public void ProcesarHistoricos(System.ComponentModel.BackgroundWorker worker)
+        public void ProcesarHistoricos(System.ComponentModel.BackgroundWorker worker, string periodo)
         {
 
             worker.ReportProgress(0);
-            Fondos f = this.DatosExcelEstadisticas();
+            Fondos f = this.DatosExcelEstadisticas(periodo);
             worker.ReportProgress(40);
             
-            cc.Procesar(f.Cesantia);
+            cc.Procesar(f.Cesantia, periodo);
             worker.ReportProgress(60);
-            ac.Procesar(f.Asfam);
+            ac.Procesar(f.Asfam, periodo);
             worker.ReportProgress(80);
-            sc.Procesar(f.Sil);
+            sc.Procesar(f.Sil, periodo);
             worker.ReportProgress(100);
             
         }
 
 
-        public void ProcesarFondoCesantia(System.ComponentModel.BackgroundWorker worker)
+        public void ProcesarFondoCesantia(System.ComponentModel.BackgroundWorker worker, string periodo)
         {
             worker.ReportProgress(0);
             Cesantia c = new Cesantia()
             {
-                AporteFiscalMes = Convert.ToString(DatosCuentasFBL3N("7003000002") * -1),
-                Reintego = Convert.ToString(DatosCuentasFBL3N("7003000003") * -1),
-                SubsidiosCesantia = Convert.ToString(DatosCuentasFBL3N("8007000001")),
+                AporteFiscalMes = Convert.ToString(DatosCuentasFBL3N("7003000002", periodo) * -1),
+                Reintego = Convert.ToString(DatosCuentasFBL3N("7003000003", periodo) * -1),
+                SubsidiosCesantia = Convert.ToString(DatosCuentasFBL3N("8007000001", periodo)),
                 SubsidiosCesantiaRetroactivos = "0",
                 ChequesCaducados="0",
                 ChequesRevalidados="0",
@@ -57,48 +57,48 @@ namespace IA.FondosNacionales.Excel
             };
             worker.ReportProgress(70);
 
-            cc.ProcesarFondo(c);
+            cc.ProcesarFondo(c, periodo);
             worker.ReportProgress(100);
             
 
         }
 
 
-        public void ProcesarFondoAsfam(System.ComponentModel.BackgroundWorker worker)
+        public void ProcesarFondoAsfam(System.ComponentModel.BackgroundWorker worker,string periodo)
         {
             worker.ReportProgress(0);
 
             List<long> Reintegros = new List<long>();
-            Reintegros.Add(DatosCuentasFBL3N("7001000002"));
-            Reintegros.Add(DatosCuentasFBL3N("7001000007"));
-            Reintegros.Add(DatosCuentasFBL3N("7001000008"));
-            Reintegros.Add(DatosCuentasFBL3N("7001000009"));
+            Reintegros.Add(DatosCuentasFBL3N("7001000002", periodo));
+            Reintegros.Add(DatosCuentasFBL3N("7001000007", periodo));
+            Reintegros.Add(DatosCuentasFBL3N("7001000008", periodo));
+            Reintegros.Add(DatosCuentasFBL3N("7001000009", periodo));
 
             Asfam c = new Asfam()
             {
-                AporteFiscalMes = Convert.ToString(DatosCuentasFBL3N("7001000001")*-1),
+                AporteFiscalMes = Convert.ToString(DatosCuentasFBL3N("7001000001", periodo) *-1),
                 Reintego = Convert.ToString(Reintegros.Sum(i => i) * -1),
-                AsFamTrabajadoresActivosMesActual = Convert.ToString(DatosCuentasFBL3N("8005000001")),
+                AsFamTrabajadoresActivosMesActual = Convert.ToString(DatosCuentasFBL3N("8005000001", periodo)),
                 AsFamPensionadosMesActual = "0",
-                AsFamTrabajadoresCesantesMesActual = Convert.ToString(DatosCuentasFBL3N("8005000002")),
+                AsFamTrabajadoresCesantesMesActual = Convert.ToString(DatosCuentasFBL3N("8005000002", periodo)),
                 AsFamInstitucionesMesActual = "0",
 
-                AsFamTrabajadoresActivosRetroactivo = Convert.ToString(DatosCuentasFBL3N("8005000003")),
+                AsFamTrabajadoresActivosRetroactivo = Convert.ToString(DatosCuentasFBL3N("8005000003", periodo)),
                 AsFamPensionadosRetroactivo = "0",
-                AsFamTrabajadoresCesantesRetroactivo = Convert.ToString(DatosCuentasFBL3N("8005000030")),
+                AsFamTrabajadoresCesantesRetroactivo = Convert.ToString(DatosCuentasFBL3N("8005000030", periodo)),
                 AsFamInstitucionesRetroactivo = "0",
 
                 DocumentosRevalidados = "0",
-                ComisionAdministracion = Convert.ToString(DatosCuentasFBL3N("8005000008")),
+                ComisionAdministracion = Convert.ToString(DatosCuentasFBL3N("8005000008", periodo)),
                 DocumentosCaducados = "0",
                 DocumentosAnulados = "0",
-                DevolucionDocumentosSAFEMCaducados = Convert.ToString(DatosCuentasFBL3N("8005000006")* -1),
-                DevolucionDocumentosSAFEMAnulados = Convert.ToString(DatosCuentasFBL3N("8005000021") * -1),
-                DocumentosSAFEMRevalidados = Convert.ToString(DatosCuentasFBL3N("8005000007")),
+                DevolucionDocumentosSAFEMCaducados = Convert.ToString(DatosCuentasFBL3N("8005000006", periodo) * -1),
+                DevolucionDocumentosSAFEMAnulados = Convert.ToString(DatosCuentasFBL3N("8005000021", periodo) * -1),
+                DocumentosSAFEMRevalidados = Convert.ToString(DatosCuentasFBL3N("8005000007", periodo)),
 
             };
             worker.ReportProgress(70);
-            ac.ProcesarFondo(c);
+            ac.ProcesarFondo(c, periodo);
             
             worker.ReportProgress(100);
 
@@ -106,44 +106,44 @@ namespace IA.FondosNacionales.Excel
         }
 
 
-        public void ProcesarFondoSIL(System.ComponentModel.BackgroundWorker worker)
+        public void ProcesarFondoSIL(System.ComponentModel.BackgroundWorker worker, string periodo)
         {
             worker.ReportProgress(0);
 
             List<long> CotizacionesPeriodosAnteriores = new List<long>();
-            CotizacionesPeriodosAnteriores.Add(DatosCuentasFBL3N("7004000002"));
-            CotizacionesPeriodosAnteriores.Add(DatosCuentasFBL3N("7004000010"));
+            CotizacionesPeriodosAnteriores.Add(DatosCuentasFBL3N("7004000002", periodo));
+            CotizacionesPeriodosAnteriores.Add(DatosCuentasFBL3N("7004000010", periodo));
 
             List<long> ReintegroporCobroIndebidodeSubsidio = new List<long>();
-            ReintegroporCobroIndebidodeSubsidio.Add(DatosCuentasFBL3N("7004000003"));
-            ReintegroporCobroIndebidodeSubsidio.Add(DatosCuentasFBL3N("7004000007"));
+            ReintegroporCobroIndebidodeSubsidio.Add(DatosCuentasFBL3N("7004000003", periodo));
+            ReintegroporCobroIndebidodeSubsidio.Add(DatosCuentasFBL3N("7004000007", periodo));
 
             List<long> SILEnfermedadOrigenComun = new List<long>();
-            SILEnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000001"));
-            SILEnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000002"));
-            SILEnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000010"));
+            SILEnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000001", periodo));
+            SILEnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000002", periodo));
+            SILEnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000010", periodo));
 
             
             List<long> SILSubsidioMaternalSuplementario = new List<long>();
-            SILSubsidioMaternalSuplementario.Add(DatosCuentasFBL3N("8008000011"));
-            SILSubsidioMaternalSuplementario.Add(DatosCuentasFBL3N("8008000012"));
-            SILSubsidioMaternalSuplementario.Add(DatosCuentasFBL3N("8008000013"));
+            SILSubsidioMaternalSuplementario.Add(DatosCuentasFBL3N("8008000011", periodo));
+            SILSubsidioMaternalSuplementario.Add(DatosCuentasFBL3N("8008000012", periodo));
+            SILSubsidioMaternalSuplementario.Add(DatosCuentasFBL3N("8008000013", periodo));
 
             List<long> DescuentoBeneficiosNoCobrados = new List<long>();
-            DescuentoBeneficiosNoCobrados.Add(DatosCuentasFBL3N("8008000003"));
-            DescuentoBeneficiosNoCobrados.Add(DatosCuentasFBL3N("8008000020"));
+            DescuentoBeneficiosNoCobrados.Add(DatosCuentasFBL3N("8008000003", periodo));
+            DescuentoBeneficiosNoCobrados.Add(DatosCuentasFBL3N("8008000020", periodo));
 
             List<long> SREnfermedadOrigenComun = new List<long>();
-            SREnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000004"));
-            SREnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000019"));
+            SREnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000004", periodo));
+            SREnfermedadOrigenComun.Add(DatosCuentasFBL3N("8008000019", periodo));
             
 
             SIL s = new SIL
             {
-                Cotizaciones = Convert.ToString(DatosCuentasFBL3N("7004000009") * -1),
+                Cotizaciones = Convert.ToString(DatosCuentasFBL3N("7004000009", periodo) * -1),
                 CotizacionesPeriodosAnteriores = (CotizacionesPeriodosAnteriores.Sum(i => i) * -1).ToString(),
-                ReajusteLey17332 = Convert.ToString(DatosCuentasFBL3N("7004000005") * -1),
-                CotizacionesEntidadesPagadorasdeSubsidios = Convert.ToString(DatosCuentasFBL3N("7004000011") * -1),
+                ReajusteLey17332 = Convert.ToString(DatosCuentasFBL3N("7004000005", periodo) * -1),
+                CotizacionesEntidadesPagadorasdeSubsidios = Convert.ToString(DatosCuentasFBL3N("7004000011", periodo) * -1),
                 ReintegroporCobroIndebidodeSubsidio = (ReintegroporCobroIndebidodeSubsidio.Sum(i => i) * -1).ToString(),
 
 
@@ -152,80 +152,80 @@ namespace IA.FondosNacionales.Excel
                 DescuentoBeneficiosNoCobrados = DescuentoBeneficiosNoCobrados.Sum(i => i).ToString(),
 
                 SREnfermedadOrigenComun = SREnfermedadOrigenComun.Sum(i => i).ToString(),
-                SRSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000008")),
+                SRSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000008", periodo)),
 
-                CFPEnfermedadOrigenComun = Convert.ToString(DatosCuentasFBL3N("8008000007")),
-                CFPSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000014")),
+                CFPEnfermedadOrigenComun = Convert.ToString(DatosCuentasFBL3N("8008000007", periodo)),
+                CFPSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000014", periodo)),
 
-                CFSEnfermedadOrigenComun = Convert.ToString(DatosCuentasFBL3N("8008000015")),
-                CFSSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000016")),
+                CFSEnfermedadOrigenComun = Convert.ToString(DatosCuentasFBL3N("8008000015", periodo)),
+                CFSSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000016", periodo)),
 
-                OCEnfermedadOrigenComun = Convert.ToString(DatosCuentasFBL3N("8008000017")),
-                OCSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000018")),
+                OCEnfermedadOrigenComun = Convert.ToString(DatosCuentasFBL3N("8008000017", periodo)),
+                OCSubsidioMaternalSuplementario = Convert.ToString(DatosCuentasFBL3N("8008000018", periodo)),
 
-                ComisionAdministracion = Convert.ToString(DatosCuentasFBL3N("8008000005")),
-                OtrosEgresos = Convert.ToString(DatosCuentasFBL3N("8008000009")),
+                ComisionAdministracion = Convert.ToString(DatosCuentasFBL3N("8008000005", periodo)),
+                OtrosEgresos = Convert.ToString(DatosCuentasFBL3N("8008000009", periodo)),
 
             };
 
             worker.ReportProgress(70);
-            sc.ProcesarFondo(s);
+            sc.ProcesarFondo(s, periodo);
 
             worker.ReportProgress(100);
 
         }
 
 
-        public void ProcesarFondoMaternal(System.ComponentModel.BackgroundWorker worker)
+        public void ProcesarFondoMaternal(System.ComponentModel.BackgroundWorker worker, string periodo)
         {
             worker.ReportProgress(0);
 
             Maternal m = new Maternal
             {
-                A1 = Convert.ToString(DatosCuentasFBL3N("7002000002") * -1),
-                A2 = Convert.ToString(DatosCuentasFBL3N("7002000005") * -1),
-                A31 = Convert.ToString(DatosCuentasFBL3N("7002000006") * -1),
-                A32 = Convert.ToString(DatosCuentasFBL3N("7002000007") * -1),
-                A41 = Convert.ToString(DatosCuentasFBL3N("7002000004") * -1),
-                A42 = Convert.ToString(DatosCuentasFBL3N("7002000003") * -1),
-                C1 = Convert.ToString(DatosCuentasFBL3N("8006000009")),
-                C2 = Convert.ToString(DatosCuentasFBL3N("8006000010")),
-                C3 = Convert.ToString(DatosCuentasFBL3N("8006000021")),
-                C4 = Convert.ToString(DatosCuentasFBL3N("8006000011")),
+                A1 = Convert.ToString(DatosCuentasFBL3N("7002000002", periodo) * -1),
+                A2 = Convert.ToString(DatosCuentasFBL3N("7002000005", periodo) * -1),
+                A31 = Convert.ToString(DatosCuentasFBL3N("7002000006", periodo) * -1),
+                A32 = Convert.ToString(DatosCuentasFBL3N("7002000007", periodo) * -1),
+                A41 = Convert.ToString(DatosCuentasFBL3N("7002000004", periodo) * -1),
+                A42 = Convert.ToString(DatosCuentasFBL3N("7002000003", periodo) * -1),
+                C1 = Convert.ToString(DatosCuentasFBL3N("8006000009", periodo)),
+                C2 = Convert.ToString(DatosCuentasFBL3N("8006000010", periodo)),
+                C3 = Convert.ToString(DatosCuentasFBL3N("8006000021", periodo)),
+                C4 = Convert.ToString(DatosCuentasFBL3N("8006000011", periodo)),
                 C5 = Convert.ToString(0),
-                C61 = Convert.ToString(DatosCuentasFBL3N("8006000022")),
-                C62 = Convert.ToString(DatosCuentasFBL3N("8006000023")),
-                C63 = Convert.ToString(DatosCuentasFBL3N("8006000024")),
-                C64 = Convert.ToString(DatosCuentasFBL3N("8006000025")),
+                C61 = Convert.ToString(DatosCuentasFBL3N("8006000022", periodo)),
+                C62 = Convert.ToString(DatosCuentasFBL3N("8006000023", periodo)),
+                C63 = Convert.ToString(DatosCuentasFBL3N("8006000024", periodo)),
+                C64 = Convert.ToString(DatosCuentasFBL3N("8006000025", periodo)),
                 C65 = Convert.ToString(0),
-                C71 = Convert.ToString(DatosCuentasFBL3N("8006000026")),
-                C72 = Convert.ToString(DatosCuentasFBL3N("8006000027")),
-                C73 = Convert.ToString(DatosCuentasFBL3N("8006000028")),
-                C74 = Convert.ToString(DatosCuentasFBL3N("8006000029")),
+                C71 = Convert.ToString(DatosCuentasFBL3N("8006000026", periodo)),
+                C72 = Convert.ToString(DatosCuentasFBL3N("8006000027", periodo)),
+                C73 = Convert.ToString(DatosCuentasFBL3N("8006000028", periodo)),
+                C74 = Convert.ToString(DatosCuentasFBL3N("8006000029", periodo)),
                 C75 = Convert.ToString(0),
 
-                C81 = Convert.ToString(DatosCuentasFBL3N("8006000030")),
-                C82 = Convert.ToString(DatosCuentasFBL3N("8006000031")),
-                C83 = Convert.ToString(DatosCuentasFBL3N("8006000032")),
-                C84 = Convert.ToString(DatosCuentasFBL3N("8006000033")),
+                C81 = Convert.ToString(DatosCuentasFBL3N("8006000030", periodo)),
+                C82 = Convert.ToString(DatosCuentasFBL3N("8006000031", periodo)),
+                C83 = Convert.ToString(DatosCuentasFBL3N("8006000032", periodo)),
+                C84 = Convert.ToString(DatosCuentasFBL3N("8006000033", periodo)),
                 C85 = Convert.ToString(0),
 
-                C91 = Convert.ToString(DatosCuentasFBL3N("8006000034")),
-                C92 = Convert.ToString(DatosCuentasFBL3N("8006000035")),
-                C93 = Convert.ToString(DatosCuentasFBL3N("8006000036")),
-                C94 = Convert.ToString(DatosCuentasFBL3N("8006000037")),
+                C91 = Convert.ToString(DatosCuentasFBL3N("8006000034", periodo)),
+                C92 = Convert.ToString(DatosCuentasFBL3N("8006000035", periodo)),
+                C93 = Convert.ToString(DatosCuentasFBL3N("8006000036", periodo)),
+                C94 = Convert.ToString(DatosCuentasFBL3N("8006000037", periodo)),
                 C95 = Convert.ToString(0),
 
-                E1 = Convert.ToString(DatosCuentasFBL3N("8006000012")),
-                E2 = Convert.ToString(DatosCuentasFBL3N("8006000013")),
-                E3 = Convert.ToString(DatosCuentasFBL3N("8006000038")),
-                E4 = Convert.ToString(DatosCuentasFBL3N("8006000014")),
+                E1 = Convert.ToString(DatosCuentasFBL3N("8006000012", periodo)),
+                E2 = Convert.ToString(DatosCuentasFBL3N("8006000013", periodo)),
+                E3 = Convert.ToString(DatosCuentasFBL3N("8006000038", periodo)),
+                E4 = Convert.ToString(DatosCuentasFBL3N("8006000014", periodo)),
                 E5 = Convert.ToString(0),
 
-                F1 = Convert.ToString(DatosCuentasFBL3N("8006000015")),
-                F2 = Convert.ToString(DatosCuentasFBL3N("8006000016")),
-                F3 = Convert.ToString(DatosCuentasFBL3N("8006000039")),
-                F4 = Convert.ToString(DatosCuentasFBL3N("8006000017")),
+                F1 = Convert.ToString(DatosCuentasFBL3N("8006000015", periodo)),
+                F2 = Convert.ToString(DatosCuentasFBL3N("8006000016", periodo)),
+                F3 = Convert.ToString(DatosCuentasFBL3N("8006000039", periodo)),
+                F4 = Convert.ToString(DatosCuentasFBL3N("8006000017", periodo)),
                 F5 = Convert.ToString(0),
 
                 G1 = Convert.ToString(0),
@@ -237,26 +237,29 @@ namespace IA.FondosNacionales.Excel
             };
 
             worker.ReportProgress(80);
-            mc.ProcesarFondo(m);
+            mc.ProcesarFondo(m, periodo);
 
             worker.ReportProgress(100);
         }
 
-        public void ProcesarAnexos(System.ComponentModel.BackgroundWorker worker)
+        public void ProcesarAnexos(System.ComponentModel.BackgroundWorker worker, string periodo)
         {
             worker.ReportProgress(0);
-            sc.GenerarAnexo();
+            sc.GenerarAnexo(periodo);
+            worker.ReportProgress(50);
+            mc.GenerarAnexo(periodo);
             worker.ReportProgress(100);
         }
 
 
-        public Fondos DatosExcelEstadisticas()
+        public Fondos DatosExcelEstadisticas(string periodo)
         {
 
             Fondos fret = new Fondos();
             
             var excelApp = new ExcelX.Application();
-            excelApp.Workbooks.Open(@"C:\Fondos Nacionales\in\Est201701CRF.xls");
+            Utilidades.AbrirLibro(excelApp, @"C:\Fondos Nacionales\in\" + periodo + @"\EstadisticaCRF");
+            
 
             #region Datos correspondientes al cuadro 1
             ExcelX._Worksheet Cuadro1 = (ExcelX.Worksheet)excelApp.Sheets["Cuadros N°1"];
@@ -298,7 +301,8 @@ namespace IA.FondosNacionales.Excel
             /*OTHR*/
 
             var excelAppXD = new ExcelX.Application();
-            excelAppXD.Workbooks.Open(@"C:\Fondos Nacionales\in\Est201701ED.xls");
+            Utilidades.AbrirLibro(excelAppXD, @"C:\Fondos Nacionales\in\" + periodo + @"\EstadisticaED");
+            
             ExcelX._Worksheet hoja = (ExcelX.Worksheet)excelAppXD.Sheets[1];
             int TtlSubsidios = Convert.ToInt32(hoja.Range["F10"].Text.Replace(".", "").Replace(",", ""));
             excelAppXD.Quit();
@@ -306,7 +310,8 @@ namespace IA.FondosNacionales.Excel
 
             /*OTR*/
             var excelAppSil = new ExcelX.Application();
-            excelAppSil.Workbooks.Open(@"C:\Fondos Nacionales\in\Est201701SIL.xlsx");
+            Utilidades.AbrirLibro(excelAppSil, @"C:\Fondos Nacionales\in\" + periodo + @"\EstadisticaSIL");
+            //excelAppSil.Workbooks.Open(@"C:\Fondos Nacionales\in\" + periodo + @"\EstadisticaSIL.xlsx");
 
             #region Datos correspondientes al cuadro 3
             ExcelX._Worksheet CuadroN3 = (ExcelX.Worksheet)excelAppSil.Sheets["SIL Anexo 6 - Cuadro Nº 3"];
@@ -319,17 +324,36 @@ namespace IA.FondosNacionales.Excel
             #endregion
 
             excelAppSil.Quit();
-            
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelAppSil);
+
+
+
+            /*Nota Interna*/
+
+            var excelAppNotaInterna = new ExcelX.Application();
+            var libroXXX = Utilidades.AbrirLibro(excelAppNotaInterna, @"C:\Fondos Nacionales\in\" + periodo + @"\NOTA_INTERNA");
+            ExcelX._Worksheet HojaNotaInterna = libroXXX.Sheets["Nota Interna"];
+
+            fret.Cesantia.ValorNotaInterna = HojaNotaInterna.Range["B10"].Text;
+            fret.Sil.ValorNotaInterna = HojaNotaInterna.Range["B2"].Text;
+            fret.Asfam.NI_Tramo0 = HojaNotaInterna.Range["E3"].Text;
+            fret.Asfam.NI_Tramo1 = HojaNotaInterna.Range["E4"].Text;
+            fret.Asfam.NI_Tramo2 = HojaNotaInterna.Range["E5"].Text;
+            fret.Asfam.NI_Tramo3 = HojaNotaInterna.Range["E6"].Text;
+            fret.Asfam.NI_Tramo4 = HojaNotaInterna.Range["E7"].Text;
+
+            excelAppNotaInterna.Quit();
+            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelAppNotaInterna);
+
 
             return fret;
         }
 
 
-        public long DatosCuentasFBL3N(string cuenta)
+        public long DatosCuentasFBL3N(string cuenta, string periodo)
         {
             var excelApp = new ExcelX.Application();
-            var Book = excelApp.Workbooks.Open(@"C:\Fondos Nacionales\in\201701\201701FBL3N.xlsx");
+            var Book = Utilidades.AbrirLibro(excelApp, @"C:\Fondos Nacionales\in\" + periodo + @"\FBL3N"); 
             ExcelX._Worksheet Cuentas = (ExcelX.Worksheet)excelApp.Sheets["Data"];
             var rango = Cuentas.UsedRange;
 
@@ -365,5 +389,35 @@ namespace IA.FondosNacionales.Excel
         }
 
 
+
+
+    }
+
+    public static class Utilidades
+    {
+        public static ExcelX.Workbook AbrirLibro(ExcelX.Application instancia, string ruta)
+        {
+            ExcelX.Workbook retorno;
+            string extension = ".xlsx";
+
+            try
+            {
+                retorno = instancia.Workbooks.Open(ruta + extension);
+            }
+            catch (Exception ex)
+            {
+                extension = ".xls";
+                retorno = instancia.Workbooks.Open(ruta + extension);
+            }
+
+            return retorno;
+        }
+
+        public static string ExtensionLibro(ExcelX.Workbook libro)
+        {
+            return System.IO.Path.GetExtension(libro.FullName);
+        }
+
+        
     }
 }

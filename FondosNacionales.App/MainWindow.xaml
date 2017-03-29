@@ -8,15 +8,21 @@
         ResizeMode="NoResize"
         Title="Fondos Nacionales de Marcos" Height="288.235" Width="535" >
     <Grid Margin="0,0,0,0">
-        <Button x:Name="btn_Historicos" Content="Ejecutar Historicos" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_Historicos_Click" />
-        <Button x:Name="btn_Cesantia" Content="Cesantia" HorizontalAlignment="Left" Margin="197,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_Cesantia_Click"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="10,217,0,0" VerticalAlignment="Top" Width="497" x:Name="pg_avance"/>
-        <Button x:Name="btn_SIL" HorizontalAlignment="Left" Margin="340,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Content="SIL" Click="btn_SIL_Click"/>
-        <Button x:Name="btn_ASFAM" Content="Asfam" HorizontalAlignment="Left" Margin="197,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_ASFAM_Click"/>
-        <Button x:Name="btm_Maternal" HorizontalAlignment="Left" Margin="340,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Content="Maternal" Click="btm_Maternal_Click"/>
-        <Label x:Name="label" Content="Marco's Excel Processor" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Height="31" Width="206"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="193*"/>
+            <ColumnDefinition Width="336*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="btn_Historicos" Content="Estadisticos" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_Historicos_Click" />
+        <Button x:Name="btn_Cesantia" Content="Cesantia" HorizontalAlignment="Left" Margin="4,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_Cesantia_Click" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="10,217,0,0" VerticalAlignment="Top" Width="497" x:Name="pg_avance" Grid.ColumnSpan="2"/>
+        <Button x:Name="btn_SIL" HorizontalAlignment="Left" Margin="147,75,0,0" VerticalAlignment="Top" Width="112" Height="35" Content="SIL" Click="btn_SIL_Click" Grid.Column="1"/>
+        <Button x:Name="btn_ASFAM" Content="Asfam" HorizontalAlignment="Left" Margin="4,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_ASFAM_Click" Grid.Column="1"/>
+        <Button x:Name="btm_Maternal" HorizontalAlignment="Left" Margin="147,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Content="Maternal" Click="btm_Maternal_Click" Grid.Column="1"/>
+        <Label x:Name="label" Content="Fondos Nacionales" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Height="31" Width="206" Grid.ColumnSpan="2"/>
         <Label x:Name="lb_status" Content="-" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btn_anexos" Content="Generar Anexos" HorizontalAlignment="Left" Margin="10,137,0,0" VerticalAlignment="Top" Width="112" Height="35" Click="btn_anexos_Click" />
+        <ComboBox x:Name="cb_periodo" Grid.Column="1" HorizontalAlignment="Left" Margin="147,25,0,0" VerticalAlignment="Top" Width="112" />
+        <Label x:Name="label1" Content="Periodo" Grid.Column="1" HorizontalAlignment="Left" Margin="89,25,0,0" VerticalAlignment="Top" Width="53"/>
 
     </Grid>
 </Window>

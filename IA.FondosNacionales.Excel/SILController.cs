@@ -10,10 +10,15 @@ namespace IA.FondosNacionales.Excel
 {
     public class SILController
     {
-        public void Procesar(SIL s)
+        public void Procesar(SIL s, string periodo)
         {
             var excelAppOut = new ExcelX.Application();
-            excelAppOut.Workbooks.Open(@"C:\Fondos Nacionales\Templates\IF_SIL.xlsx");
+
+            var rutaEntrada = @"C:\Fondos Nacionales\Templates\IF_SIL";
+            
+            Utilidades.AbrirLibro(excelAppOut, rutaEntrada);
+           
+            
 
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
             Salida.Cells["12", "U"] = s.NumSubsidiosIniciados.Replace(".", "").Replace(",", "");
@@ -23,8 +28,10 @@ namespace IA.FondosNacionales.Excel
             Salida.Cells["15", "U"] = s.NumTrabajadoresAfiliados.Replace(".", "").Replace(",", "");
             Salida.Cells["16", "U"] = s.NumEmpresasAfiliadas.Replace(".", "").Replace(",", "");
 
+            Salida.Cells["52", "Q"] = s.ValorNotaInterna.Replace(".", "").Replace(",", "");
+
             //var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-            var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\Preliminar\";
             System.IO.FileAttributes attr;
             try
@@ -36,21 +43,24 @@ namespace IA.FondosNacionales.Excel
                 System.IO.Directory.CreateDirectory(rutaSalida);
             }
             //_" + fecha + "
-            Salida.SaveAs(rutaSalida + "IFSIL.xlsx");
+            Salida.SaveAs(rutaSalida + "IFSIL" + Utilidades.ExtensionLibro(Salida.Application.ActiveWorkbook));
             
             excelAppOut.Quit();
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelAppOut);
         }
 
-        public void ProcesarFondo(SIL c)
+        public void ProcesarFondo(SIL c, string periodo)
         {
             var excelAppOut = new ExcelX.Application();
             var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-            var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
-            var rutaEntrada = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\Preliminar\IFSIL.xlsx";
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            var rutaEntrada = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\Preliminar\IFSIL";
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\";
 
-            excelAppOut.Workbooks.Open(rutaEntrada);
+            Utilidades.AbrirLibro(excelAppOut, rutaEntrada);
+
+         
+            
             //"Feb-17"
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
             Salida.Cells["12", "I"] = c.Cotizaciones.Replace(".", "").Replace(",", "");
@@ -91,7 +101,7 @@ namespace IA.FondosNacionales.Excel
             }
 
             Salida.Name = periodo;
-            Salida.SaveAs(rutaSalida + "IFSIL_" + fecha + ".xlsx");
+            Salida.SaveAs(rutaSalida + "IFSIL_" + fecha + Utilidades.ExtensionLibro(Salida.Application.ActiveWorkbook));
 
             excelAppOut.Quit();
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelAppOut);
@@ -99,21 +109,22 @@ namespace IA.FondosNacionales.Excel
 
         }
 
-        public void GenerarAnexo()
+        
+
+        public void GenerarAnexo(string periodo)
         {
             var excelApp = new ExcelX.Application();
             var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-            var periodo = "201702";//DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
-            var rutaEntrada = @"C:\Fondos Nacionales\in\" + periodo + @"\SISILHIA.xlsx";
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            var rutaEntrada = @"C:\Fondos Nacionales\in\" + periodo + @"\SISILHIA";
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\Anexo\";
-            var rutaTemplate = @"C:\Fondos Nacionales\Templates\ANEXO_SIL.xlsx";
-            var rutaDos = @"C:\Fondos Nacionales\in\" + periodo + @"\ESTEMP.xls";
-            var rutaAux = @"C:\Fondos Nacionales\Auxiliar\AUX_DINAMICA.xlsx";
-
-            ExcelX.Workbook libroEntrada = excelApp.Workbooks.Open(rutaEntrada);
-            ExcelX.Workbook libroDestino = excelApp.Workbooks.Open(rutaTemplate);
-
-
+            var rutaTemplate = @"C:\Fondos Nacionales\Templates\ANEXO_SIL";
+            var rutaDos = @"C:\Fondos Nacionales\in\" + periodo + @"\ESTEMP";
+            var rutaAux = @"C:\Fondos Nacionales\Auxiliar\AUX_DINAMICA";
+            
+            ExcelX.Workbook libroEntrada = Utilidades.AbrirLibro(excelApp, rutaEntrada);
+            ExcelX.Workbook libroDestino = Utilidades.AbrirLibro(excelApp, rutaTemplate);
+            
 
             //Primero
             ExcelX._Worksheet Cuadro1 = libroEntrada.Sheets["CUADRO N° 1"];
@@ -197,8 +208,8 @@ namespace IA.FondosNacionales.Excel
             to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
             ///////////////////////////////
-            ExcelX.Workbook libroDos = excelApp.Workbooks.Open(rutaDos);
-            ExcelX.Workbook libroAux = excelApp.Workbooks.Open(rutaAux);
+            ExcelX.Workbook libroDos = Utilidades.AbrirLibro(excelApp, rutaDos);
+            ExcelX.Workbook libroAux = Utilidades.AbrirLibro(excelApp, rutaAux);
             //Quinto
             ExcelX._Worksheet Cuadro6 = libroDos.Sheets["Cuadro 6"];
             ExcelX._Worksheet Cuadro6y7_a6 = libroDestino.Sheets["SIL Anexo 6-Cuadro Nº 6 Y 7"];
@@ -288,7 +299,7 @@ namespace IA.FondosNacionales.Excel
             }
 
 
-            libroDestino.SaveAs(rutaSalida + "Anexo_SIL_" + fecha + ".xlsx");
+            libroDestino.SaveAs(rutaSalida + "Anexo_SIL_" + fecha + Utilidades.ExtensionLibro(libroDestino));
 
             libroDestino.Close(false);
             libroEntrada.Close(false);

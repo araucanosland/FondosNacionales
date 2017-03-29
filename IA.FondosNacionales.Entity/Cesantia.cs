@@ -12,6 +12,8 @@ namespace IA.FondosNacionales.Entity
         public string NroAfiliados { get; set; }
         public string NroSubsidios { get; set; }
 
+        public string ValorNotaInterna { get; set; }
+
         public string AporteFiscalMes { get; set; }
         public string Reintego { get; set; }
         public string SubsidiosCesantia { get; set; }

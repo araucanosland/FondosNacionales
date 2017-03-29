@@ -43,5 +43,8 @@ namespace IA.FondosNacionales.Entity
         public string ComisionAdministracion { get; set; }
         public string OtrosEgresos { get; set; }
 
+
+        public string ValorNotaInterna { get; set; }
+
     }
 }

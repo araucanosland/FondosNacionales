@@ -95,6 +95,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IA.FondosNacionales.Entity\IA.FondosNacionales.Entity.csproj">
+      <Project>{705f5fb3-01ba-449f-ae96-1ed012a60eef}</Project>
+      <Name>IA.FondosNacionales.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IA.FondosNacionales.Excel\IA.FondosNacionales.Excel.csproj">
       <Project>{6d3695c9-74b0-4329-9607-999956d5aa3f}</Project>
       <Name>IA.FondosNacionales.Excel</Name>

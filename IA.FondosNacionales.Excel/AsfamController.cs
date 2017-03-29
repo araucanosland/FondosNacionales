@@ -10,18 +10,26 @@ namespace IA.FondosNacionales.Excel
 {
     public class AsfamController
     {
-        public void Procesar(Asfam a)
+        public void Procesar(Asfam a, string periodo)
         {
             var excelAppOut = new ExcelX.Application();
-            excelAppOut.Workbooks.Open(@"C:\Fondos Nacionales\Templates\IF_ASFAM.xlsx");
+
+            Utilidades.AbrirLibro(excelAppOut, @"C:\Fondos Nacionales\Templates\IF_ASFAM");
     
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
             Salida.Cells["15", "X"] = a.NroAsignacionesFamiliaresPagadas.Replace(".", "").Replace(",", "");
             Salida.Cells["16", "X"] = a.NroAfiliados.Replace(".", "").Replace(",", "");
             Salida.Cells["22", "V"] = a.NroEmpresas.Replace(".", "").Replace(",", "");
 
+            Salida.Cells["57", "U"] = a.NI_Tramo0.Replace(".", "").Replace(",", "");
+            Salida.Cells["58", "U"] = a.NI_Tramo1.Replace(".", "").Replace(",", "");
+            Salida.Cells["59", "U"] = a.NI_Tramo2.Replace(".", "").Replace(",", "");
+            Salida.Cells["60", "U"] = a.NI_Tramo3.Replace(".", "").Replace(",", "");
+            Salida.Cells["61", "U"] = a.NI_Tramo4.Replace(".", "").Replace(",", "");
+
+
             //var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-            var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Asfam\Preliminar\";
             System.IO.FileAttributes attr;
             try
@@ -33,22 +41,23 @@ namespace IA.FondosNacionales.Excel
                 System.IO.Directory.CreateDirectory(rutaSalida);
             }
             //_" + fecha + "
-            Salida.SaveAs(rutaSalida + "IFAsfam.xlsx");
+            Salida.SaveAs(rutaSalida + "IFAsfam" + Utilidades.ExtensionLibro(Salida.Application.ActiveWorkbook));
 
             excelAppOut.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelAppOut);
         }
 
 
-        public void ProcesarFondo(Asfam c)
+        public void ProcesarFondo(Asfam c, string periodo)
         {
             var excelAppOut = new ExcelX.Application();
             var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-            var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
-            var rutaEntrada = @"C:\Fondos Nacionales\out\" + periodo + @"\Asfam\Preliminar\IFAsfam.xlsx";
+            //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
+            var rutaEntrada = @"C:\Fondos Nacionales\out\" + periodo + @"\Asfam\Preliminar\IFAsfam";
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Asfam\";
 
-            excelAppOut.Workbooks.Open(rutaEntrada);
+            Utilidades.AbrirLibro(excelAppOut, rutaEntrada);
+            
             //"Feb-17"
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
             Salida.Cells["14", "M"] = c.AporteFiscalMes.Replace(".", "").Replace(",", "");
@@ -85,7 +94,7 @@ namespace IA.FondosNacionales.Excel
             }
 
             Salida.Name = periodo;
-            Salida.SaveAs(rutaSalida + "IFAsfam_" + fecha + ".xlsx");
+            Salida.SaveAs(rutaSalida + "IFAsfam_" + fecha + Utilidades.ExtensionLibro(Salida.Application.ActiveWorkbook));
 
             excelAppOut.Quit();
             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelAppOut);

@@ -28,6 +28,11 @@ namespace FondosNacionales.App
         System.ComponentModel.BackgroundWorker wrkAnexos;
 
         IA.FondosNacionales.Excel.ControladorPrincipal x;
+
+        string periodo_ejec;
+
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -76,19 +81,34 @@ namespace FondosNacionales.App
             wrkAnexos.DoWork += wrkr_DoWorkAnexos;
             wrkAnexos.ProgressChanged += wrkr_ProgressChanged;
             wrkAnexos.RunWorkerCompleted += wrkrMaternal_RunWorkerCompleted;
+
+            /*List<IA.FondosNacionales.Entity.Periodo> periodos = new List<IA.FondosNacionales.Entity.Periodo>();
+            periodos.Add(new IA.FondosNacionales.Entity.Periodo(201701, "Enero de 2017"));
+            periodos.Add(new IA.FondosNacionales.Entity.Periodo(201702, "Febrero de 2017"));
+            periodos.Add(new IA.FondosNacionales.Entity.Periodo(201703, "Marzo de 2017"));
+            periodos.Add(new IA.FondosNacionales.Entity.Periodo(201704, "Abril de 2017"));*/
             
+            for(int i = 201701; i<=201712; i++)
+            {
+                ComboBoxItem g = new ComboBoxItem();
+                g.Content = i;
+                cb_periodo.Items.Add(g);
+            }
+
+            cb_periodo.SelectedIndex = 0;
 
         }
 
         private void btn_Historicos_Click(object sender, RoutedEventArgs e)
         {
             lb_status.Content = "Procesando Historicos..";
+            this.periodo_ejec = ((ComboBoxItem)cb_periodo.SelectedItem).Content.ToString();
             wrkrHistoricos.RunWorkerAsync();
         }
 
         private void wrkr_DoWorkHistoricos(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            x.ProcesarHistoricos((System.ComponentModel.BackgroundWorker)sender);
+            x.ProcesarHistoricos((System.ComponentModel.BackgroundWorker)sender, this.periodo_ejec);
         }
 
         private void wrkrHistoricos_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
@@ -105,7 +125,7 @@ namespace FondosNacionales.App
         private void wrkr_DoWorkFondoCesantia(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
 
-            x.ProcesarFondoCesantia((System.ComponentModel.BackgroundWorker)sender);
+            x.ProcesarFondoCesantia((System.ComponentModel.BackgroundWorker)sender, this.periodo_ejec);
         }
                 
         private void wrkrCesantia_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -117,13 +137,13 @@ namespace FondosNacionales.App
         private void btn_Cesantia_Click(object sender, RoutedEventArgs e)
         {
             lb_status.Content = "Procesando Fondo Cesantia..";
+            this.periodo_ejec = ((ComboBoxItem)cb_periodo.SelectedItem).Content.ToString();
             wrkrFondoCesantia.RunWorkerAsync();
         }
         
         private void wrkr_DoWorkFondoAsfam(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-
-            x.ProcesarFondoAsfam((System.ComponentModel.BackgroundWorker)sender);
+            x.ProcesarFondoAsfam((System.ComponentModel.BackgroundWorker)sender, this.periodo_ejec);
         }
 
         private void wrkr_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
@@ -140,18 +160,21 @@ namespace FondosNacionales.App
         private void btn_ASFAM_Click(object sender, RoutedEventArgs e)
         {
             lb_status.Content = "Procesando Fondo Asfam..";
+            this.periodo_ejec = ((ComboBoxItem)cb_periodo.SelectedItem).Content.ToString();
             wrkrFondoAsfam.RunWorkerAsync();
         }
 
         private void btn_SIL_Click(object sender, RoutedEventArgs e)
         {
             lb_status.Content = "Procesando Fondo SIL..";
+            this.periodo_ejec = ((ComboBoxItem)cb_periodo.SelectedItem).Content.ToString();
             wrkrFondoSIL.RunWorkerAsync();
         }
 
         private void btm_Maternal_Click(object sender, RoutedEventArgs e)
         {
             lb_status.Content = "Procesando Fondo Maternal..";
+            this.periodo_ejec = ((ComboBoxItem)cb_periodo.SelectedItem).Content.ToString();
             wrkrFondoMaternal.RunWorkerAsync();
         }
 
@@ -170,23 +193,24 @@ namespace FondosNacionales.App
 
         private void wrkr_DoWorkSIL(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            x.ProcesarFondoSIL((System.ComponentModel.BackgroundWorker)sender);
+            x.ProcesarFondoSIL((System.ComponentModel.BackgroundWorker)sender, this.periodo_ejec);
         }
 
         private void wrkr_DoWorkMaternal(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            x.ProcesarFondoMaternal((System.ComponentModel.BackgroundWorker)sender);
+            x.ProcesarFondoMaternal((System.ComponentModel.BackgroundWorker)sender, this.periodo_ejec);
         }
 
 
         private void wrkr_DoWorkAnexos(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            x.ProcesarAnexos((System.ComponentModel.BackgroundWorker)sender);
+            x.ProcesarAnexos((System.ComponentModel.BackgroundWorker)sender, this.periodo_ejec);
         }
 
         private void btn_anexos_Click(object sender, RoutedEventArgs e)
         {
             lb_status.Content = "Procesando Anexos..";
+            this.periodo_ejec = ((ComboBoxItem)cb_periodo.SelectedItem).Content.ToString();
             wrkAnexos.RunWorkerAsync();
         }
     }
