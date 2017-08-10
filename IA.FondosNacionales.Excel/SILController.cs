@@ -13,23 +13,39 @@ namespace IA.FondosNacionales.Excel
         public void Procesar(SIL s, string periodo)
         {
             var excelAppOut = new ExcelX.Application();
+            var excelAppOut2 = new ExcelX.Application();
 
             var rutaEntrada = @"C:\Fondos Nacionales\Templates\IF_SIL";
-            
+
+            var rutaESTEMP = @"C:\Fondos Nacionales\Templates\ESTEMP";
+
             Utilidades.AbrirLibro(excelAppOut, rutaEntrada);
-           
-            
+
+            Utilidades.AbrirLibro(excelAppOut2, rutaESTEMP);
+
+
 
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
+            ExcelX._Worksheet EntradaESTEMP = (ExcelX.Worksheet)excelAppOut2.Sheets["Total Afil . y Emp. COTIZANTES"];
             Salida.Cells["12", "U"] = s.NumSubsidiosIniciados.Replace(".", "").Replace(",", "");
             Salida.Cells["13", "U"] = s.NumAfiliadosCotizantes.Replace(".", "").Replace(",", "");
 
-            Salida.Cells["14", "U"] = s.NumEmpresasCotizantes.Replace(".", "").Replace(",", "");
+            //TO DO: Agregar nuevo documento que tendrá este valor
+            var from = EntradaESTEMP.Range["D62"];
+            var to = Salida.Range["U14"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            
+            //Salida.Cells["14", "U"] = s.NumEmpresasCotizantes.Replace(".", "").Replace(",", "");
             Salida.Cells["15", "U"] = s.NumTrabajadoresAfiliados.Replace(".", "").Replace(",", "");
             Salida.Cells["16", "U"] = s.NumEmpresasAfiliadas.Replace(".", "").Replace(",", "");
 
             Salida.Cells["52", "Q"] = s.ValorNotaInterna.Replace(".", "").Replace(",", "");
 
+
+            
             //var fecha = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
             //var periodo = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString().PadLeft(2, '0');
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\Preliminar\";
@@ -119,7 +135,7 @@ namespace IA.FondosNacionales.Excel
             var rutaEntrada = @"C:\Fondos Nacionales\in\" + periodo + @"\SISILHIA";
             var rutaSalida = @"C:\Fondos Nacionales\out\" + periodo + @"\Sil\Anexo\";
             var rutaTemplate = @"C:\Fondos Nacionales\Templates\ANEXO_SIL";
-            var rutaDos = @"C:\Fondos Nacionales\in\" + periodo + @"\ESTEMP";
+            var rutaDos = @"C:\Fondos Nacionales\in\" + periodo + @"\ESTEMPMESCIERRE";
             var rutaAux = @"C:\Fondos Nacionales\Auxiliar\AUX_DINAMICA";
             
             ExcelX.Workbook libroEntrada = Utilidades.AbrirLibro(excelApp, rutaEntrada);
@@ -260,6 +276,64 @@ namespace IA.FondosNacionales.Excel
             from.Copy();
             to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
+            from = Resumen.Range["C26"];
+            to = Resumen_a6.Range["D30"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["C27"];
+            to = Resumen_a6.Range["D29"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            //*********
+
+
+            from = Resumen.Range["D26"];
+            to = Resumen_a6.Range["E30"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["D27"];
+            to = Resumen_a6.Range["E29"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Resumen.Range["E26"];
+            to = Resumen_a6.Range["F30"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["E27"];
+            to = Resumen_a6.Range["F29"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["F26"];
+            to = Resumen_a6.Range["G30"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["F27"];
+            to = Resumen_a6.Range["G29"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G26"];
+            to = Resumen_a6.Range["H30"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G27"];
+            to = Resumen_a6.Range["H29"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+
+            //********
+
             from = Resumen.Range["C34:E35"];
             to = Resumen_a6.Range["D35:F36"];
             from.Copy();
@@ -286,6 +360,75 @@ namespace IA.FondosNacionales.Excel
             from.Copy();
             to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
+
+            from = Resumen.Range["F12:F19"];
+            to = Resumen_a6.Range["G16:G23"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G12:G19"];
+            to = Resumen_a6.Range["H16:H23"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["F25:F28"];
+            to = Resumen_a6.Range["G28:G31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G25:G28"];
+            to = Resumen_a6.Range["H28:H31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Resumen.Range["F34:F35"];
+            to = Resumen_a6.Range["G35:G36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G34:G35"];
+            to = Resumen_a6.Range["H35:H36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Resumen.Range["F44:F49"];
+            to = Resumen_a6.Range["G42:G47"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G44:G49"];
+            to = Resumen_a6.Range["H42:H47"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+            /***
+             * 
+             * 
+             * */
+            from = Resumen.Range["F46"];
+            to = Resumen_a6.Range["G45"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["F47"];
+            to = Resumen_a6.Range["G44"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Resumen.Range["G46"];
+            to = Resumen_a6.Range["H45"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+            from = Resumen.Range["G47"];
+            to = Resumen_a6.Range["H44"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //----------------------------
 
             //cerrando
             System.IO.FileAttributes attr;

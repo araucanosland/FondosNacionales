@@ -24,7 +24,7 @@ namespace IA.FondosNacionales.Excel
             ExcelX._Worksheet Salida = (ExcelX.Worksheet)excelAppOut.Sheets["Template"];
             Salida.Cells["14", "V"] = c.NroSubsidios.Replace(".","").Replace(",", "");
             Salida.Cells["15", "V"] = c.NroAfiliados.Replace(".", "").Replace(",", "");
-            Salida.Cells["16", "V"] = "133";
+            //Salida.Cells["16", "V"] = "133";
             Salida.Cells["21", "T"] = c.NroEmpresas.Replace(".", "").Replace(",", "");
 
             Salida.Cells["52", "R"] = c.ValorNotaInterna.Replace(".", "").Replace(",", "");
