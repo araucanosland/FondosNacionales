@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ExcelX = Microsoft.Office.Interop.Excel;
 using IA.FondosNacionales.Entity;
+using System.Globalization;
 
 namespace IA.FondosNacionales.Excel
 {
@@ -114,7 +115,7 @@ namespace IA.FondosNacionales.Excel
 
             ExcelX.Workbook libroEntrada = Utilidades.AbrirLibro(excelApp, rutaEntrada);
             ExcelX.Workbook libroDestino = Utilidades.AbrirLibro(excelApp, rutaTemplate);
-            
+
             //Primero
             ExcelX._Worksheet Cuadro1 = libroEntrada.Sheets["ResCotizPrevi"];
             ExcelX._Worksheet Cuadro1_a6 = libroDestino.Sheets["Anexo 4-Res"];
@@ -165,12 +166,6 @@ namespace IA.FondosNacionales.Excel
             to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
 
-            //TO DO: Mirar por que no copia estos valores, aparte no suma la caja de total
-            from = Cuadro1.Range["F24:F29"];
-            to = Cuadro1_a6.Range["E26:E31"];
-            from.Copy();
-            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
-
 
             from = Cuadro1.Range["H24:H29"];
             to = Cuadro1_a6.Range["F26:F31"];
@@ -197,12 +192,7 @@ namespace IA.FondosNacionales.Excel
             to = Cuadro1_a6.Range["J26:J31"];
             from.Copy();
             to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
-         
-            //TO DO: Revisar por que no copia
-            from = Cuadro1.Range["D33:D34"];
-            to = Cuadro1_a6.Range["D35:D36"];
-            from.Copy();
-            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
 
             from = Cuadro1.Range["F33:F34"];
             to = Cuadro1_a6.Range["E35:E36"];
@@ -256,22 +246,7 @@ namespace IA.FondosNacionales.Excel
             //to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
 
-            //SPRT
-            from = Cuadro1.Range["D50"];
-            to = Cuadro1_a6.Range["D51"];
-            from.Copy();
-            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
-            from = Cuadro1.Range["F50"];
-            to = Cuadro1_a6.Range["E51"];
-            from.Copy();
-            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
-
-
-            from = Cuadro1.Range["H50"];
-            to = Cuadro1_a6.Range["F51"];
-            from.Copy();
-            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
             //from = Cuadro1.Range["I41:I46"];
             //to = Cuadro1_a6.Range["G42:G37"];
@@ -314,6 +289,62 @@ namespace IA.FondosNacionales.Excel
             to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
 
 
+
+            
+            from = Cuadro1.Range["L54:L59"];
+            to = Cuadro1_a6.Range["I55:I60"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            from = Cuadro1.Range["M54:M59"];
+            to = Cuadro1_a6.Range["J55:J60"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //TO DO: Revisar por que no copia
+            from = Cuadro1.Range["D33:D34"];
+            to = Cuadro1_a6.Range["D35:D36"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+
+
+            //TO DO: Mirar por que no copia estos valores, aparte no suma la caja de total
+            from = Cuadro1.Range["F24:F29"];
+            to = Cuadro1_a6.Range["E26:E31"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+            
+
+            //SPRT
+            from = Cuadro1.Range["D50"];
+            to = Cuadro1_a6.Range["D51"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+            
+
+            from = Cuadro1.Range["F50"];
+            to = Cuadro1_a6.Range["E51"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+           
+
+            from = Cuadro1.Range["H50"];
+            to = Cuadro1_a6.Range["F51"];
+            from.Copy();
+            to.PasteSpecial(ExcelX.XlPasteType.xlPasteValues, ExcelX.XlPasteSpecialOperation.xlPasteSpecialOperationNone, System.Type.Missing, System.Type.Missing);
+            
+
+
+            Cuadro1_a6.Range["E32"].Formula = "=SUM(E26:E31)";
+
+            Cuadro1_a6.Range["D39"].Formula = "=D23+D32+D37";
+
+
+            Cuadro1_a6.Range["D12:I64"].Replace(".", "");
+            //Cuadro1_a6.Range["D12:I64"].NumberFormat = "#.##0";
+            
 
 
             //cerrando
