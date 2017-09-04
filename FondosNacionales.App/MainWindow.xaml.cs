@@ -87,13 +87,25 @@ namespace FondosNacionales.App
             periodos.Add(new IA.FondosNacionales.Entity.Periodo(201702, "Febrero de 2017"));
             periodos.Add(new IA.FondosNacionales.Entity.Periodo(201703, "Marzo de 2017"));
             periodos.Add(new IA.FondosNacionales.Entity.Periodo(201704, "Abril de 2017"));*/
-            
-            for(int i = 201701; i<=201712; i++)
+
+            DateTime di = new DateTime(2017, 01, 01);
+            DateTime df = new DateTime(2019, 12, 01);
+
+            while(di <= df)
+            {
+                ComboBoxItem g = new ComboBoxItem();
+                g.Content = di.Year.ToString() + "" + di.Month.ToString().PadLeft(2,'0');
+                cb_periodo.Items.Add(g);
+
+                di = di.AddMonths(1);
+            }
+
+            /*for (int i = 201701; i<=201912; i++)
             {
                 ComboBoxItem g = new ComboBoxItem();
                 g.Content = i;
                 cb_periodo.Items.Add(g);
-            }
+            }*/
 
             cb_periodo.SelectedIndex = 0;
 
